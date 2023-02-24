@@ -1,4 +1,5 @@
 from main_df import src
+from interface import ui
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as pgo
@@ -21,9 +22,9 @@ while name_folder:
 # Country input(s) listing
 country_source = []
 for country_opt in src.Country.unique():
-    country_source.append(country_opt) # country_source will contain 52 contents (index 0:51)
+    country_source.append(country_opt)
 
-country_scan = [country_source[8], country_source[35], country_source[23]]
+country_scan = ui(country_source)['countries']
 for country in country_scan:
 
     # Country-based-filtering

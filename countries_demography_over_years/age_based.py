@@ -1,4 +1,5 @@
 from main_df import src
+from interface import ui
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as pgo
@@ -18,14 +19,11 @@ while name_folder:
     else:
         name_folder = False
 
-# Select input(s) listing
+# Countries and ages options listing
 country_source = []
 for country_opt in src.Country.unique():
     country_source.append(country_opt)
 
-countries_scan = [country_source[14], country_source[20], country_source[3]]
-
-# Select age category(s) listing
 age_source = [['0 to 4', '5 to 9', '10 to 14', '15 to 19'],
               ['20 to 24', '25 to 29', '30 to 34'],
               ['35 to 39', '40 to 44', '45 to 49'],
@@ -36,7 +34,12 @@ age_categories = ['0 to 19 (Youngster Age)',
                   '35 to 49 (Mid Productive Age)',
                   '50 to 64 (End Productive Age)',
                   '65 and over (Older Age)']
-age_scan_categories = [age_categories[0], age_categories[4]]
+
+# Select countries and ages for analysis
+input_analysis = ui(country_source, age_categories)
+
+countries_scan = input_analysis['countries']
+age_scan_categories = input_analysis['ages']
 age_scan_sources = []
 for age_category in age_scan_categories:
     age_scan_sources.append(age_source[age_categories.index(age_category)])

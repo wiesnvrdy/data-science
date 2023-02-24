@@ -1,6 +1,7 @@
 from data_prepared import exchange, interest, collective, countries
 from matplotlib import pyplot as plt
 from matplotlib import dates as mdates
+from interface import ui
 import seaborn as sns
 import os
 
@@ -18,7 +19,7 @@ while name_folder:
     else:
         name_folder = False
 
-scan_countries = [countries[7], countries[14], countries[25]]
+scan_countries = ui(countries)['countries']
 
 # Plot berdasarkan negara
 for country in scan_countries:

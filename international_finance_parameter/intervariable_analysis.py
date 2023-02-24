@@ -1,5 +1,6 @@
 from data_prepared import collective
 from matplotlib import pyplot as plt
+from interface import ui
 import pandas as pd
 import os
 
@@ -17,8 +18,14 @@ while name_folder:
     else:
         name_folder = False
 
-countries = collective[collective.Parameter == 'Currency Exchange'].Country.unique().tolist()
-scan_countries = [countries[7], countries[13], countries[25]]
+countries_exchange = collective[collective.Parameter == 'Currency Exchange'].Country.unique().tolist()
+
+countries = []
+for country in countries_exchange:
+    if collective[collective.Country == country].Parameter.nunique() != 1:
+        countries.append(country)
+
+scan_countries = ui(countries)['countries']
 
 # Filter negara terpilih
 for country in scan_countries:
@@ -67,8 +74,6 @@ for country in scan_countries:
         plt.grid(color = 'gray', linestyle = '--')
         plt.savefig(f'.\{foldername}\{country}\Exchange Rate vs Short-Term Interest.png')
         plt.clf()
-    
-    # Analisis trendline dan R-square untuk variabel dependen => short-term interest
 
     # Ekstraksi data exchange rate dan immediate interest
     imm_int_val = pd.DataFrame(country_df[country_df.Parameter == 'Immediate Interest'])
@@ -108,8 +113,6 @@ for country in scan_countries:
         plt.savefig(f'.\{foldername}\{country}\Exchange Rate vs Immediate Interest.png')
         plt.clf()
     
-    # Analisis trendline dan R-square untuk variabel dependen => immediate interest
-
     # Ekstraksi data exchange rate dan long-term interest
     long_int_val = pd.DataFrame(country_df[country_df.Parameter == 'Long-Term Interest'])
     long_int_val.Value = long_int_val.Value.str.replace(',', '')
@@ -147,5 +150,3 @@ for country in scan_countries:
         plt.grid(color = 'gray', linestyle = '--')
         plt.savefig(f'.\{foldername}\{country}\Exchange Rate vs Long-Term Interest.png')
         plt.clf()
-
-    # Analisis trendline dan R-square untuk variabel dependen => long-term interest
